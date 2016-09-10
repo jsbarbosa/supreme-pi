@@ -3,8 +3,19 @@
 
 ### VNC
 
-VNC is now avaible in the supreme-pi project. Following [this](http://computers.tutsplus.com/tutorials/take-control-of-your-raspberry-pi-using-your-mac-pc-ipad-or-phone--mac-54603) instructions.
+VNC is now avaible in the supreme-pi project. It became real following [this](http://computers.tutsplus.com/tutorials/take-control-of-your-raspberry-pi-using-your-mac-pc-ipad-or-phone--mac-54603) instructions.
 
+1- Change pi password and enable SSH server.
+``sudo raspi-config``
+
+2- Get IP address.
+``ifconfig``
+
+3- Install VNC.
+``sudo apt-get install tightvncserver``
+``tightvncserver``
+
+4- On Remmina, server = ``192.168.0.8:1``.
 
 References:
 
