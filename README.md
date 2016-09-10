@@ -3,7 +3,10 @@
 
 ### VNC
 
-Reference>
+VNC is now avaible in the supreme-pi project. Following [this](http://computers.tutsplus.com/tutorials/take-control-of-your-raspberry-pi-using-your-mac-pc-ipad-or-phone--mac-54603) instructions.
+
+
+References:
 
 http://jcatala.net/categoria-gnulinux/accediendo-al-escritorio-de-la-raspberry-pi-mediante-vnc
 
