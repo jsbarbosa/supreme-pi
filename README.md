@@ -5,13 +5,16 @@
 
 VNC is now avaible in the supreme-pi project. It became real following [this](http://computers.tutsplus.com/tutorials/take-control-of-your-raspberry-pi-using-your-mac-pc-ipad-or-phone--mac-54603) instructions.
 
-1- Change pi password and enable SSH server.
+1. Change pi password and enable SSH server.
+
 ``sudo raspi-config``
 
-2- Get IP address.
+2. Get IP address.
+
 ``ifconfig``
 
-3- Install VNC.
+3. Install VNC.
+
 ``sudo apt-get install tightvncserver``
 ``tightvncserver``
 
@@ -22,7 +25,6 @@ References:
 http://jcatala.net/categoria-gnulinux/accediendo-al-escritorio-de-la-raspberry-pi-mediante-vnc
 
 ### Physical computing
-
 
 References:
 
