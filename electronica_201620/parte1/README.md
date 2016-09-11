@@ -4,8 +4,7 @@
   
    In order to read analog signals: https://learn.adafruit.com/raspberry-pi-analog-to-digital-converters/overview
 
-   Usage can be seen [here](https://cdn-learn.adafruit.com/downloads/pdf/raspberry-pi-analog-to-digital-converters.pdf).
-% Sigma electronica
+   Usage can be seen [here](https://cdn-learn.adafruit.com/downloads/pdf/raspberry-pi-analog-to-digital-converters.pdf). Looking forward to buy it at Sigma Electronica
 2. **Peltier cell characterization**.
 3. **Power supply**.
 
