@@ -3,6 +3,9 @@
   2. [Arduino equivalent](http://www.instructables.com/id/ARDUINO-TEMPERATURE-SENSOR-LM35/)
   
    In order to read analog signals: https://learn.adafruit.com/raspberry-pi-analog-to-digital-converters/overview
+
+   Usage can be seen [here](https://cdn-learn.adafruit.com/downloads/pdf/raspberry-pi-analog-to-digital-converters.pdf).
+# Sigma electronica
 2. **Peltier cell characterization**.
 3. **Power supply**.
 
