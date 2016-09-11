@@ -11,3 +11,5 @@
    [Raspberry Pi Power 1](http://raspberrypi.stackexchange.com/questions/8665/homebrew-power-supply-for-raspberry-pi)
 
    [Raspberry Pi Power 2](http://electronics.stackexchange.com/questions/106326/powering-a-raspberry-pi-from-12-v-dc)
+   
+   7805 voltage regulator [datasheet](https://www.sparkfun.com/datasheets/Components/LM7805.pdf)
