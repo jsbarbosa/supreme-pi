@@ -1,6 +1,10 @@
 # supreme-pi
 ## The Raspberry Pi project
 
+### GPIO Pins
+
+![Pins](http://i.stack.imgur.com/Ct2JG.png)
+
 ### VNC
 
 VNC is now avaible in the supreme-pi project. It became real following [this](http://computers.tutsplus.com/tutorials/take-control-of-your-raspberry-pi-using-your-mac-pc-ipad-or-phone--mac-54603) instructions.
