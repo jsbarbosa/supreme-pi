@@ -2,8 +2,7 @@
 ## The Raspberry Pi project
 
 ### GPIO Pins
-
-![Pins](http://i.stack.imgur.com/Ct2JG.png)
+<img src="http://i.stack.imgur.com/Ct2JG.png" width="250">
 
 ### VNC
 
