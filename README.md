@@ -2,7 +2,7 @@
 ## The Raspberry Pi project
 
 ### GPIO Pins
-<img src="http://i.stack.imgur.com/Ct2JG.png" width="250">
+<img src="http://i.stack.imgur.com/Ct2JG.png" width="500">
 
 ### VNC
 
@@ -18,7 +18,13 @@ VNC is now avaible in the supreme-pi project. It became real following [this](ht
 ``sudo apt-get install tightvncserver``
 ``tightvncserver``
 
-4. On Remmina, server = ``192.168.0.8:1``.
+It might be easier to use the Raspberry using an Ethernet cable. On Ubuntu (host):
+> Edit Connections.. > Ethernet Wired connection 1 > Edit > IPv4 Settings > Method "Shared to other computers"
+
+4. To reveal IP address
+``arp -e | grep enp3s0``
+
+5. On Remmina, server = ``192.168.0.8:1``.
 
 References:
 
