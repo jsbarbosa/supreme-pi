@@ -1,3 +1,5 @@
+![Circuit](https://github.com/jsbarbosa/supreme-pi/blob/master/electronica_201620/parte1/Sketch_bb.png)
+
 1. **Temperature mesurements**.
   1. [Temperature sensor](http://www.facstaff.bucknell.edu/mastascu/elessonshtml/sensors/templm35.html)
   2. [Arduino equivalent](http://www.instructables.com/id/ARDUINO-TEMPERATURE-SENSOR-LM35/)
