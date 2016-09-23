@@ -6,7 +6,7 @@
   
    In order to read analog signals: https://learn.adafruit.com/raspberry-pi-analog-to-digital-converters/overview
 
-   Usage can be seen [here](https://cdn-learn.adafruit.com/downloads/pdf/raspberry-pi-analog-to-digital-converters.pdf). Looking forward to buy it at Sigma Electronica
+   Usage can be seen [here](https://cdn-learn.adafruit.com/downloads/pdf/raspberry-pi-analog-to-digital-converters.pdf).
 2. **Peltier cell characterization**.
 3. **Power supply**.
 
@@ -15,3 +15,6 @@
    [Raspberry Pi Power 2](http://electronics.stackexchange.com/questions/106326/powering-a-raspberry-pi-from-12-v-dc)
    
    7805 voltage regulator [datasheet](https://www.sparkfun.com/datasheets/Components/LM7805.pdf)
+
+# Datasheets
+[LM741 OpAm](http://www.ti.com/lit/ds/symlink/lm741.pdf)
