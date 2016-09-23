@@ -14,6 +14,8 @@
    [Raspberry Pi Power 2](http://electronics.stackexchange.com/questions/106326/powering-a-raspberry-pi-from-12-v-dc)
 
 # Datasheets
+[LM35](http://www.ti.com/lit/ds/symlink/lm35.pdf) 
+
 [LM741 OpAm](http://www.ti.com/lit/ds/symlink/lm741.pdf)
 
 [LM7805 Voltage Regulator](https://www.sparkfun.com/datasheets/Components/LM7805.pdf)
