@@ -6,7 +6,8 @@
   
 2. **Peltier cell characterization**.
 3. **Power supply**.
-  Final power supply is based on [this](http://www.instructables.com/id/Increasing-current-on-78xx-series-regulators/)
+
+   Final power supply is based on [this](http://www.instructables.com/id/Increasing-current-on-78xx-series-regulators/)
 
    [Raspberry Pi Power 1](http://raspberrypi.stackexchange.com/questions/8665/homebrew-power-supply-for-raspberry-pi)
 
@@ -14,5 +15,7 @@
 
 # Datasheets
 [LM741 OpAm](http://www.ti.com/lit/ds/symlink/lm741.pdf)
+
 [LM7805 Voltage Regulator](https://www.sparkfun.com/datasheets/Components/LM7805.pdf)
+
 [ADS1115](https://cdn-learn.adafruit.com/downloads/pdf/raspberry-pi-analog-to-digital-converters.pdf)
