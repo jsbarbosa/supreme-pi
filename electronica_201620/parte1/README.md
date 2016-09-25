@@ -1,6 +1,6 @@
 ![Circuit_image](https://github.com/jsbarbosa/supreme-pi/blob/master/electronica_201620/parte1/Sketch_bb.png)
 
-[embed]https://docs.google.com/viewer?url=https://github.com/jsbarbosa/supreme-pi/blob/master/electronica_201620/parte1/Sketch_schem.pdf[/embed]
+Circuit can be seen [here](https://github.com/jsbarbosa/supreme-pi/blob/master/electronica_201620/parte1/Sketch_schem.pdf)
 
 1. **Temperature mesurements**.
   1. [Temperature sensor](http://www.facstaff.bucknell.edu/mastascu/elessonshtml/sensors/templm35.html)
