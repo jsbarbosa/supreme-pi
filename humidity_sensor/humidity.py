@@ -1,3 +1,5 @@
+# based on https://github.com/adafruit/Adafruit_Python_DHT/blob/master/examples/AdafruitDHT.py
+
 import Adafruit_DHT
 import time
 from datetime import datetime
@@ -9,12 +11,10 @@ def dataUpdate(file, data):
     writer.writerow(data)
     f.close()
 
-# Sensor should be set to Adafruit_DHT.DHT11,
-# Adafruit_DHT.DHT22, or Adafruit_DHT.AM2302.
+# Sensor
 sensor = Adafruit_DHT.DHT11
 
-# Example using a Raspberry Pi with DHT sensor
-# connected to GPIO23.
+# GPIO4.
 pin = 4
 
 init_text = ["Time", "Temperature (C)", "Humidity (%)"]
@@ -26,14 +26,8 @@ file = "DHT_results.csv"
 dataUpdate(file, init_text)
 while True:
     try:
-        # Try to grab a sensor reading.  Use the read_retry method which will retry up
-        # to 15 times to get a sensor reading (waiting 2 seconds between each retry).
         humidity, temperature = Adafruit_DHT.read(sensor, pin)
 
-        # Note that sometimes you won't get a reading and
-        # the results will be null (because Linux can't
-        # guarantee the timing of calls to read the sensor).
-        # If this happens try again!
         if humidity is not None and temperature is not None:
             date = datetime.now().strftime("%H:%M:%S")
             res = [date, temperature, humidity]
