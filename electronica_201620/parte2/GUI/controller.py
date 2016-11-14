@@ -8,9 +8,11 @@ Created on Sun Nov 13 15:35:21 2016
 try:
     import RPi.GPIO as GPIO
     import Adafruit_ADS1x15
-except:
-    print("Test")
+    GPIO.setmode(GPIO.BCM)
+except Exception as e:
+    print("Test ", e)
 
+from time import sleep
 import numpy as np
 
 MAXIMUM = 32767.0
@@ -33,6 +35,7 @@ class controller:
             self.ADC = Adafruit_ADS1x15.ADS1115()
         except NameError:
             self.ADC = tester()
+
         self.temperature = self.from_bits_to_value()
         self.variables = {}
         

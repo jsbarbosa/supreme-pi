@@ -30,6 +30,7 @@ class server:
         self.port = port
 
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         self.socket.bing((self.host, self.port))
         print(host , port)
 
@@ -45,7 +46,7 @@ class server:
                     
                 if data == "":
                     self.socket.listen(1)
-                    self.conn, addr = s.accept()
+                    self.conn, addr = self.socket.accept()
 
                 elif data == "close":
                     break
@@ -53,7 +54,7 @@ class server:
                 if data:
                     temp = self.controller.read()
                     answer = ("%.6f"%temp).encode(encoding='UTF-8')
-                    conn.sendall(answer)
+                    self.conn.sendall(answer)
             except socket.error:
                 print("Error Occured.")
                 break
