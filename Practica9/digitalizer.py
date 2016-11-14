@@ -19,8 +19,8 @@ def chooser(pin, value):
     
 
 def primeraParte():
-    potentiometer = ADC.read_adc(0)/maximum*gain_voltage
-    cell = ADC.read_adc(1)/maximum*gain_voltage
+    potentiometer = 0#ADC.read_adc(0)/maximum*gain_voltage
+    cell = 0#ADC.read_adc(3)/maximum*gain_voltage
     print('\033c')
     print('Cell: %.3fV, Potentiometer: %.3fV'%(cell, potentiometer))
     print('----------------------------------')
