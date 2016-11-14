@@ -11,9 +11,17 @@ class client:
         self.TCP_IP = TCP_IP
         self.TCP_PORT = TCP_PORT
         self.BUFFER_SIZE = BUFFER_SIZE
-        self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.socket.connect((self.TCP_IP, self.TCP_PORT))
+        self.ADDRESS = socket.gethostname()
         
+    def start_client(self, TCP_IP, TCP_PORT):
+        self.TCP_IP = TCP_IP
+        self.TCP_PORT = TCP_PORT
+        try:
+            self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            self.socket.connect((self.TCP_IP, self.TCP_PORT))
+        except Exception as e:
+            return e
+            
     def send_data(self, message):
         message = message.encode(encoding='UTF-8')
         self.socket.sendall(message)
@@ -24,14 +32,14 @@ class client:
         self.socket.close()
 
 class server:
-    from controller import controller
-    def __init__(self, host = "10.42.0.207", port = 12345):
+    def __init__(self, host, port):
+        from controller import controller
         self.host = host
         self.port = port
 
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-        self.socket.bing((self.host, self.port))
+        self.socket.bind((self.host, self.port))
         print(host , port)
 
         self.socket.listen(1)

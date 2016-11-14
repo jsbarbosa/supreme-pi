@@ -16,12 +16,14 @@ from matplotlib.backends.backend_qt4agg import (FigureCanvasQTAgg as FigureCanva
 from PyQt4 import QtCore, QtGui, uic
  
 form_class = uic.loadUiType("mainwindow.ui")[0]
- 
+
 class MyWindowClass(QtGui.QMainWindow, form_class):
     def __init__(self, parent=None):
         QtGui.QMainWindow.__init__(self, parent)
         self.setupUi(self)
         
+        
+        self.connect_button.clicked.connect(self.start_client)
         self.startbutton.clicked.connect(self.start_stop)
         self.clear_button.clicked.connect(self.remplt)
         self.temperature_dial.sliderMoved.connect(self.temperature_change_1)
@@ -38,12 +40,14 @@ class MyWindowClass(QtGui.QMainWindow, form_class):
         
         self.client = client("10.42.0.207", 12345)
         
+        self.client_label.setText(self.client.ADDRESS)        
+        
         self.desired = self.desired_line.text()
-        self.current_line.setText("%.3f"%float(self.client.send_data("Hello")))
+#        self.current_line.setText("%.3f"%float(self.client.send_data("Hello")))
  
     def addplt(self):
         self.figure, self.ax1 = plt.subplots(1,1, figsize = (8, 4.5))    
-        self.figure.subplots_adjust(bottom = 0.15, left = 0.13, right = 0.87)
+        self.figure.subplots_adjust(bottom = 0.3, left = 0.13, right = 0.87)
         self.figure.set_facecolor('none')         
         
         self.ax1.set_xlabel("Time (min)")
@@ -137,9 +141,35 @@ class MyWindowClass(QtGui.QMainWindow, form_class):
         self.desired = value
         self.desired_line.setText(str(value))
         self.temperature_dial.setValue(value)
+        
+    def start_client(self):
+        host = self.host_line.text()
+        port = self.port_line.text()
+        try:
+            port = int(port)
+            ans = self.client.start_client(host, port)
+            if ans != None:
+                raise Exception(ans)
+                
+            else:
+                self.status_label.setStyleSheet("background-color: rgb(38, 229, 57)")
+        except Exception as E:
+            self.showdialog(E)
+            
+    def showdialog(self, error):
+        msg = QtGui.QMessageBox()
+        msg.setIcon(QtGui.QMessageBox.Critical)
+        
+        msg.setText("Something went wrong:")
+        msg.setInformativeText(str(error))
+        msg.setWindowTitle("TCP Error")
+	
+        retval = msg.exec_()     
+        
 
 app = QtGui.QApplication(sys.argv)
 MyWindow = MyWindowClass(None)
+print("Window")
 MyWindow.show()
 app.exec_()
 MyWindow.client.close_socket()
