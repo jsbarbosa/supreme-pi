@@ -8,9 +8,8 @@ Created on Sun Nov 13 12:53:58 2016
 import sys
 import time
 import numpy as np
-from client_TCP import client
+from TCP import client
 import matplotlib.pyplot as plt
-from controller import controller, resistor
 from matplotlib.backends.backend_qt4agg import (FigureCanvasQTAgg as FigureCanvas)
     
 #from mainwindow import Ui_MainWindow as form_class
@@ -25,6 +24,8 @@ class MyWindowClass(QtGui.QMainWindow, form_class):
         
         self.startbutton.clicked.connect(self.start_stop)
         self.clear_button.clicked.connect(self.remplt)
+        self.temperature_dial.sliderMoved.connect(self.temperature_change_1)
+        self.desired_line.editingFinished.connect(self.temperature_change_2)
         
         self.addplt()
         self.start = False
@@ -35,15 +36,14 @@ class MyWindowClass(QtGui.QMainWindow, form_class):
         self.plt_temp = np.zeros(0)
         self.plt_error = np.zeros(0)
         
-        self.controller = controller(0, 0, 0, 0)
         self.client = client("10.42.0.207", 12345)
         
         self.desired = self.desired_line.text()
-        self.current_line.setText("%.3f"%self.controller.read())
+        self.current_line.setText("%.3f"%float(self.client.send_data("Hello")))
  
     def addplt(self):
         self.figure, self.ax1 = plt.subplots(1,1, figsize = (8, 4.5))    
-        self.figure.subplots_adjust(bottom = 0.13, left = 0.13, right = 0.87)
+        self.figure.subplots_adjust(bottom = 0.15, left = 0.13, right = 0.87)
         self.figure.set_facecolor('none')         
         
         self.ax1.set_xlabel("Time (min)")
@@ -60,8 +60,8 @@ class MyWindowClass(QtGui.QMainWindow, form_class):
         self.ax1.hold(True)
         self.ax2.hold(True)  
         
-        self.ax1_temperatures = self.ax1.plot([], [], "-", color = "r", lw = 0.5)[0]
-        self.ax2_errors = self.ax2.plot([], [], "-", color = "grey", lw = 0.5)[0]  
+        self.ax1_temperatures = self.ax1.plot([], [], "-", color = "r")[0]
+        self.ax2_errors = self.ax2.plot([], [], "-", color = "grey")[0]  
         
         self.canvas = FigureCanvas(self.figure)
         self.pltvl.addWidget(self.canvas)
@@ -78,7 +78,7 @@ class MyWindowClass(QtGui.QMainWindow, form_class):
     def plotter(self):
         current_time = (time.time() - self.init_time)/60
         
-        current_temp = float(self.client.send_data("Hello"))#self.controller.read()
+        current_temp = float(self.client.send_data("Hello"))
         current_error = self.desired - current_temp
         
         self.plt_time = np.append(self.plt_time, [current_time])
@@ -96,6 +96,8 @@ class MyWindowClass(QtGui.QMainWindow, form_class):
         miny, maxy = self.ax2.get_ylim()
         if self.plt_error[-1] >= maxy:
             self.ax2.set_ylim(min(self.plt_error), 3*maxy/2)
+        elif self.plt_error[-1] <= miny:
+            self.ax2.set_ylim(min(self.plt_error), maxy)
             
         self.ax1_temperatures.set_data(self.plt_time, self.plt_temp)
         self.ax2_errors.set_data(self.plt_time, self.plt_error)
@@ -119,12 +121,23 @@ class MyWindowClass(QtGui.QMainWindow, form_class):
                 self.desired = float(self.desired)
             except Exception as e:
                 print(e)
+                
             self.startbutton.setStyleSheet("background-color: rgb(38, 229, 57)")
             self.timer.start(200)
         else:
             self.startbutton.setStyleSheet("background-color: rgb(229, 38, 38)")
             self.timer.stop()
             
+    def temperature_change_1(self, value):
+        self.desired = float(value)
+        self.desired_line.setText(str(self.desired))
+    
+    def temperature_change_2(self):
+        value = float(self.desired_line.text())
+        self.desired = value
+        self.desired_line.setText(str(value))
+        self.temperature_dial.setValue(value)
+
 app = QtGui.QApplication(sys.argv)
 MyWindow = MyWindowClass(None)
 MyWindow.show()

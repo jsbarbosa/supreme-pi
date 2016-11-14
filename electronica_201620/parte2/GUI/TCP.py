@@ -5,9 +5,6 @@ Created on Sun Nov 13 18:09:13 2016
 """
 
 import socket
-from controller import controller
-
-
 
 class client:
     def __init__(self, TCP_IP, TCP_PORT, BUFFER_SIZE = 1024):
@@ -24,12 +21,10 @@ class client:
         return data
         
     def close_socket(self):
-        self.send_data("close")
         self.socket.close()
 
-
-
 class server:
+    from controller import controller
     def __init__(self, host = "10.42.0.207", port = 12345):
         self.host = host
         self.port = port
