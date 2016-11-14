@@ -16,6 +16,27 @@
   <widget class="QWidget" name="centralWidget">
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
+     <widget class="QLabel" name="label_3">
+      <property name="maximumSize">
+       <size>
+        <width>16777215</width>
+        <height>20</height>
+       </size>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>11</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+        <underline>false</underline>
+       </font>
+      </property>
+      <property name="text">
+       <string>Temperature Control</string>
+      </property>
+     </widget>
+    </item>
+    <item>
      <widget class="QFrame" name="frame">
       <property name="maximumSize">
        <size>
@@ -218,27 +239,6 @@
      </widget>
     </item>
     <item>
-     <widget class="QLabel" name="label_3">
-      <property name="maximumSize">
-       <size>
-        <width>16777215</width>
-        <height>20</height>
-       </size>
-      </property>
-      <property name="font">
-       <font>
-        <pointsize>11</pointsize>
-        <weight>75</weight>
-        <bold>true</bold>
-        <underline>false</underline>
-       </font>
-      </property>
-      <property name="text">
-       <string>Temperature Control</string>
-      </property>
-     </widget>
-    </item>
-    <item>
      <widget class="QLabel" name="label_7">
       <property name="maximumSize">
        <size>
@@ -264,8 +264,6 @@
        <bool>true</bool>
       </property>
       <layout class="QVBoxLayout" name="pltvl"/>
-      <zorder>frame</zorder>
-      <zorder>frame</zorder>
      </widget>
     </item>
    </layout>

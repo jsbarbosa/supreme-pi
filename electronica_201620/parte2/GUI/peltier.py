@@ -6,8 +6,9 @@ Created on Sun Nov 13 12:53:58 2016
 """
 
 import sys
-import numpy as np
 import time
+import numpy as np
+from client_TCP import client
 import matplotlib.pyplot as plt
 from controller import controller, resistor
 from matplotlib.backends.backend_qt4agg import (FigureCanvasQTAgg as FigureCanvas)
@@ -15,8 +16,6 @@ from matplotlib.backends.backend_qt4agg import (FigureCanvasQTAgg as FigureCanva
 #from mainwindow import Ui_MainWindow as form_class
 from PyQt4 import QtCore, QtGui, uic
  
-
-
 form_class = uic.loadUiType("mainwindow.ui")[0]
  
 class MyWindowClass(QtGui.QMainWindow, form_class):
@@ -37,6 +36,7 @@ class MyWindowClass(QtGui.QMainWindow, form_class):
         self.plt_error = np.zeros(0)
         
         self.controller = controller(0, 0, 0, 0)
+        self.client = client("10.42.0.207", 12345)
         
         self.desired = self.desired_line.text()
         self.current_line.setText("%.3f"%self.controller.read())
@@ -78,7 +78,7 @@ class MyWindowClass(QtGui.QMainWindow, form_class):
     def plotter(self):
         current_time = (time.time() - self.init_time)/60
         
-        current_temp = self.controller.read()
+        current_temp = float(self.client.send_data("Hello"))#self.controller.read()
         current_error = self.desired - current_temp
         
         self.plt_time = np.append(self.plt_time, [current_time])
@@ -129,3 +129,4 @@ app = QtGui.QApplication(sys.argv)
 MyWindow = MyWindowClass(None)
 MyWindow.show()
 app.exec_()
+MyWindow.client.close_socket()
