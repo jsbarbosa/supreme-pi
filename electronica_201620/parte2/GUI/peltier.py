@@ -20,8 +20,7 @@ form_class = uic.loadUiType("mainwindow.ui")[0]
 class MyWindowClass(QtGui.QMainWindow, form_class):
     def __init__(self, parent=None):
         QtGui.QMainWindow.__init__(self, parent)
-        self.setupUi(self)
-        
+        self.setupUi(self)        
         
         self.connect_button.clicked.connect(self.start_client)
         self.startbutton.clicked.connect(self.start_stop)
@@ -38,12 +37,11 @@ class MyWindowClass(QtGui.QMainWindow, form_class):
         self.plt_temp = np.zeros(0)
         self.plt_error = np.zeros(0)
         
-        self.client = client("10.42.0.207", 12345)
+        self.client = client()
         
         self.client_label.setText(self.client.ADDRESS)        
         
         self.desired = self.desired_line.text()
-#        self.current_line.setText("%.3f"%float(self.client.send_data("Hello")))
  
     def addplt(self):
         self.figure, self.ax1 = plt.subplots(1,1, figsize = (8, 4.5))    
@@ -82,7 +80,7 @@ class MyWindowClass(QtGui.QMainWindow, form_class):
     def plotter(self):
         current_time = (time.time() - self.init_time)/60
         
-        current_temp = float(self.client.send_data("Hello"))
+        current_temp = float(self.client.send_data("%.1f"%self.desired))
         current_error = self.desired - current_temp
         
         self.plt_time = np.append(self.plt_time, [current_time])
@@ -112,10 +110,23 @@ class MyWindowClass(QtGui.QMainWindow, form_class):
     def start_stop(self):
         self.start = not self.start
         self.timer = QtCore.QTimer()
-        self.timer.timeout.connect(self.plotter)      
+        self.timer.timeout.connect(self.plotter)
+        
         if self.start:
             if self.init_time == 0 or self.figure == None:
                 self.init_time = time.time()
+                
+                kp = float(self.kp_line.text())
+                ki = float(self.ki_line.text())
+                kd = float(self.kd_line.text())
+                
+                kp_info = self.p_IC_spinBox.value(), self.p_UD_spinBox.value(), self.p_CS_spinBox.value()
+                ki_info = self.i_IC_spinBox.value(), self.i_UD_spinBox.value(), self.i_CS_spinBox.value()
+                kd_info = self.d_IC_spinBox.value(), self.d_UD_spinBox.value(), self.d_CS_spinBox.value()
+                
+                data = "I(%s), (%s), (%s), (%.3f, %.3f, %.3f)"%(kp_info, ki_info, kd_info, kp, ki, kd)
+                self.client.send_data(data)
+                
             if self.figure == None:
                 self.addplt()
                 
@@ -153,6 +164,7 @@ class MyWindowClass(QtGui.QMainWindow, form_class):
                 
             else:
                 self.status_label.setStyleSheet("background-color: rgb(38, 229, 57)")
+
         except Exception as E:
             self.showdialog(E)
             
