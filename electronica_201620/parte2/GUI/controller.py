@@ -72,6 +72,8 @@ class potentiometer:
         self.pins = {"IC": pins[0], "UD": pins[1], "CS": pins[2]}
         self.resistor = resistor
         self.value = 0
+
+        self.time = 0.001
         
         for pin in self.pins:
             GPIO.setup(self.pins[pin], GPIO.OUT)
@@ -83,18 +85,18 @@ class potentiometer:
         GPIO.output(self.pins["UD"], GPIO.HIGH)
         while self.value < value:
             GPIO.output(self.pins["IC"], GPIO.LOW)
-            sleep(0.1)
+            sleep(self.time)
             GPIO.output(self.pins["IC"], GPIO.HIGH)
-            sleep(0.1)
+            sleep(self.time)
             self.value += 1
             
     def decrease(self, value):
         GPIO.output(self.pins["UD"], GPIO.LOW)
         while self.value > value:
             GPIO.output(self.pins["IC"], GPIO.LOW)
-            sleep(0.01)
+            sleep(self.time)
             GPIO.output(self.pins["IC"], GPIO.HIGH)
-            sleep(0.01)
+            sleep(self.time)
             self.value -= 1
             
     def change(self, value):
