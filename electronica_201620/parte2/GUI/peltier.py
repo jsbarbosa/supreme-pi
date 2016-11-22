@@ -116,15 +116,9 @@ class MyWindowClass(QtGui.QMainWindow, form_class):
             if self.init_time == 0 or self.figure == None:
                 self.init_time = time.time()
                 
-                kp = float(self.kp_line.text())
-                ki = float(self.ki_line.text())
-                kd = float(self.kd_line.text())
+                pot_info = self.IC_spinBox.value(), self.UD_spinBox.value(), self.CS_spinBox.value()
                 
-                kp_info = self.p_IC_spinBox.value(), self.p_UD_spinBox.value(), self.p_CS_spinBox.value()
-                ki_info = self.i_IC_spinBox.value(), self.i_UD_spinBox.value(), self.i_CS_spinBox.value()
-                kd_info = self.d_IC_spinBox.value(), self.d_UD_spinBox.value(), self.d_CS_spinBox.value()
-                
-                data = "I(%s), (%s), (%s), (%.3f, %.3f, %.3f)"%(kp_info, ki_info, kd_info, kp, ki, kd)
+                data = "I(%s)"%pot_info
                 self.client.send_data(data)
                 
             if self.figure == None:

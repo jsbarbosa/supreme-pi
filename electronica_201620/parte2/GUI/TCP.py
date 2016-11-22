@@ -55,15 +55,15 @@ class server:
                     try:
                         data = float(data)
                         
-                        temp = self.controller.read()
+                        temp, ref = self.controller.read()
                         self.controller.desired_temperature = data
-                        answer = ("%.6f"%temp).encode(encoding='UTF-8')
+                        answer = ("(%.3f, %.3f)"%(temp, ref)).encode(encoding='UTF-8')
                         self.conn.sendall(answer)
                     except ValueError:    
                         if data[0] == "I":
                             self.conn.sendall("Fine".encode(encoding='UTF-8'))
-                            kp_info, ki_info, kd_info, vals = eval(data[1:])                    
-                            self.controller = controller(kp_info, ki_info, kd_info, vals)
+                            pot_info = eval(data[1:])               
+                            self.controller = controller(pot_info)
                     
                         elif data == "close":
                             break

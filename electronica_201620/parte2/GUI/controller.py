@@ -28,49 +28,55 @@ class tester:
         self.value = value
 
 class controller:
-    def __init__(self, kp_pins, ki_pins, kd_pins, k_values):
+    def __init__(self, pot_pins):
         self.maximum = MAXIMUM
         self.gain_voltage = 1.024
         self.GAIN = 4
         
         try:
-            self.kp = potentiometer(kp_pins, k_values[0])
-            self.ki = potentiometer(ki_pins, k_values[1])
-            self.kd = potentiometer(kd_pins, k_values[2])
+            self.pot = potentiometer(pot_pins)
         except:
-            self.kp = tester()
-            self.ki = tester()
-            self.kd = tester()
+            self.pot = tester()
                 
         try:
             self.ADC = Adafruit_ADS1x15.ADS1115()
         except NameError:
             self.ADC = tester()
 
-        self.temperature = self.from_bits_to_value()
+        self.temperature, self.reference = self.from_bits_to_value()
+        
+        self.pot.change(0)
+        self.pot.change(100)
+        
+        self.v_min = self.pot.change(0)
+        self.v_max = self.pot.change(100)
+        
         self.desired_temperature = 0
         
-    def from_bits_to_value(self):
-        voltage = self.ADC.read_adc(0, gain=self.GAIN)
-        temperature = (voltage/self.maximum)*self.gain_voltage*100
-        return temperature
+    def from_bits_to_value(self, channel):
+        temp = self.ADC.read_adc(channel, gain=self.GAIN)
+        return (temp*self.gain_voltage*100)/self.maximum
         
     def read(self):
-        self.temperature = self.from_bits_to_value()
-        return self.temperature
+        self.temperature = self.from_bits_to_value(0)
+        self.reference = self.from_bits_to_value(1)
+        return self.temperature, self.reference
         
-    def change_pid(self, values):
-        self.kp.change(values[0])
-        self.ki.change(values[1])
-        self.kd.change(values[2])
+    def change_pot(self, value):
+        self.pot.change(value)
+        
+    def set_desired(self, value):
+        self.desired_temperature = value
+        m = 100*(self.desired_temperature-self.v_min)/(self.v_max-self.v_min)
+        m = int(np.around(m))
+        self.change_pot(m)
         
     def close(self):
         GPIO.cleanup()
         
 class potentiometer:
-    def __init__(self, pins, resistor):
+    def __init__(self, pins):
         self.pins = {"IC": pins[0], "UD": pins[1], "CS": pins[2]}
-        self.resistor = resistor
         self.value = 0
 
         self.time = 0.001
