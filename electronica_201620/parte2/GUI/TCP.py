@@ -8,7 +8,7 @@ import socket
 from controller import controller
 
 class client:
-    def __init__(self, TCP_IP = "127.0.0.1", TCP_PORT = 12345, BUFFER_SIZE = 1024):
+    def __init__(self, TCP_IP = "10.42.0.207", TCP_PORT = 12345, BUFFER_SIZE = 1024):
         self.TCP_IP = TCP_IP
         self.TCP_PORT = TCP_PORT
         self.BUFFER_SIZE = BUFFER_SIZE

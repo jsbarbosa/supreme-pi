@@ -41,7 +41,7 @@ class MyWindowClass(QtGui.QMainWindow, form_class):
         
         self.client_label.setText(self.client.ADDRESS)        
         
-        self.desired = self.desired_line.text()
+        self.desired = float(self.desired_line.text())
  
     def addplt(self):
         self.figure, self.ax1 = plt.subplots(1,1, figsize = (8, 4.5))    
@@ -116,15 +116,15 @@ class MyWindowClass(QtGui.QMainWindow, form_class):
             if self.init_time == 0 or self.figure == None:
                 self.init_time = time.time()
                 
-                pot_info = self.IC_spinBox.value(), self.UD_spinBox.value(), self.CS_spinBox.value()
+                pot_info = self.IC_spinBox.value(), self.UD_spinBox.value(), self.CS_spinBox.value()              
+                data = "I(%s, %s, %s)"%(pot_info)
                 
-                data = "I(%s)"%pot_info
                 self.client.send_data(data)
                 
             if self.figure == None:
                 self.addplt()
                 
-            self.desired = self.desired_line.text()
+            self.desired = float(self.desired_line.text()
 
             try:
                 self.desired = float(self.desired)
@@ -152,7 +152,9 @@ class MyWindowClass(QtGui.QMainWindow, form_class):
         port = self.port_line.text()
         try:
             port = int(port)
+            print('Here')
             ans = self.client.start_client(host, port)
+            
             if ans != None:
                 raise Exception(ans)
                 

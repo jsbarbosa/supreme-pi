@@ -43,7 +43,7 @@ class controller:
         except NameError:
             self.ADC = tester()
 
-        self.temperature, self.reference = self.from_bits_to_value()
+        self.temperature, self.reference = self.from_bits_to_value(0), self.from_bits_to_value(1)
         
         self.pot.change(0)
         self.pot.change(100)
