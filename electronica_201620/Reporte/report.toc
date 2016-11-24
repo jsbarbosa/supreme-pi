@@ -1,0 +1,8 @@
+\contentsline {chapter}{\numberline {1}Controlador PID}{1}
+\contentsline {section}{\numberline {1.1}Calibraci\'on de la temperatura}{2}
+\contentsline {section}{\numberline {1.2}Caracterizaci\'on del actuador}{3}
+\contentsline {section}{\numberline {1.3}Sistema de alimentaci\'on}{3}
+\contentsline {section}{\numberline {1.4}Controlador}{4}
+\contentsline {section}{\numberline {1.5}Digitalizaci\'on}{4}
+\contentsline {schapter}{Referencias}{4}
+\contentsline {chapter}{\numberline {2}Algoritmo}{5}

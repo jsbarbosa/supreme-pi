@@ -11,17 +11,19 @@ import numpy as np
 from TCP import client
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_qt4agg import (FigureCanvasQTAgg as FigureCanvas)
-    
+import csv
 #from mainwindow import Ui_MainWindow as form_class
 from PyQt4 import QtCore, QtGui, uic
  
 form_class = uic.loadUiType("mainwindow.ui")[0]
 
+
+
 class MyWindowClass(QtGui.QMainWindow, form_class):
     def __init__(self, parent=None):
         QtGui.QMainWindow.__init__(self, parent)
         self.setupUi(self)        
-        
+        self.file = "Ziegler–Nichols.csv"
         self.connect_button.clicked.connect(self.start_client)
         self.startbutton.clicked.connect(self.start_stop)
         self.clear_button.clicked.connect(self.remplt)
@@ -42,6 +44,8 @@ class MyWindowClass(QtGui.QMainWindow, form_class):
         self.client_label.setText(self.client.ADDRESS)        
         
         self.desired = float(self.desired_line.text())
+        
+        self.dataUpdate(["Time (min)", "Real", "Ref", "Error"])
  
     def addplt(self):
         self.figure, self.ax1 = plt.subplots(1,1, figsize = (8, 4.5))    
@@ -80,8 +84,12 @@ class MyWindowClass(QtGui.QMainWindow, form_class):
     def plotter(self):
         current_time = (time.time() - self.init_time)/60
         
-        current_temp = float(self.client.send_data("%.1f"%self.desired))
+        data = self.client.send_data("%.1f"%self.desired)
+        current_temp, current_ref = eval(data)
+        self.desired = current_ref
         current_error = self.desired - current_temp
+        
+        self.dataUpdate([current_time, current_temp, current_ref, current_error])
         
         self.plt_time = np.append(self.plt_time, [current_time])
         self.plt_temp = np.append(self.plt_temp, [current_temp])
@@ -124,7 +132,7 @@ class MyWindowClass(QtGui.QMainWindow, form_class):
             if self.figure == None:
                 self.addplt()
                 
-            self.desired = float(self.desired_line.text()
+            self.desired = float(self.desired_line.text())
 
             try:
                 self.desired = float(self.desired)
@@ -152,7 +160,6 @@ class MyWindowClass(QtGui.QMainWindow, form_class):
         port = self.port_line.text()
         try:
             port = int(port)
-            print('Here')
             ans = self.client.start_client(host, port)
             
             if ans != None:
@@ -172,7 +179,13 @@ class MyWindowClass(QtGui.QMainWindow, form_class):
         msg.setInformativeText(str(error))
         msg.setWindowTitle("TCP Error")
 	
-        retval = msg.exec_()     
+        retval = msg.exec_()
+        
+    def dataUpdate(self, data):
+        f = open(self.file, "a")
+        writer = csv.writer(f)
+        writer.writerow(data)
+        f.close()
         
 
 app = QtGui.QApplication(sys.argv)

@@ -56,7 +56,7 @@ class server:
                         data = float(data)
                         
                         temp, ref = self.controller.read()
-                        self.controller.desired_temperature = data
+                        self.controller.set_desired(data)
                         answer = ("(%.3f, %.3f)"%(temp, ref)).encode(encoding='UTF-8')
                         self.conn.sendall(answer)
                     except ValueError:    
