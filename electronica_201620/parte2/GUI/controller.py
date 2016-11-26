@@ -30,8 +30,8 @@ class tester:
 class controller:
     def __init__(self, pot_pins):
         self.maximum = MAXIMUM
-        self.gain_voltage = 1.024
-        self.GAIN = 4
+        self.gain_voltage = 4.096
+        self.GAIN = 1
         
         try:
             self.pot = potentiometer(pot_pins)
@@ -45,11 +45,11 @@ class controller:
 
         self.temperature, self.reference = self.from_bits_to_value(0), self.from_bits_to_value(1)
         
-        self.pot.change(0)
         self.pot.change(100)
+        self.pot.change(0)
         
-        self.v_min = self.pot.change(0)
-        self.v_max = self.pot.change(100)
+        self.v_min = 0
+        self.v_max = 3.3
         
         self.desired_temperature = 0
         
@@ -60,16 +60,21 @@ class controller:
     def read(self):
         self.temperature = self.from_bits_to_value(0)
         self.reference = self.from_bits_to_value(1)
+        print(self.temperature, self.reference)
         return self.temperature, self.reference
         
     def change_pot(self, value):
         self.pot.change(value)
         
     def set_desired(self, value):
-        self.desired_temperature = value
-        m = 100*(self.desired_temperature-self.v_min)/(self.v_max-self.v_min)
-        m = int(np.around(m))
-        self.change_pot(m)
+        value = value/100
+        if value != self.desired_temperature:
+            print(value, 'here')
+            self.desired_temperature = value
+
+            m = 100*(self.desired_temperature-self.v_min)/(self.v_max-self.v_min)
+            m = int(np.around(m))
+            self.change_pot(m)
         
     def close(self):
         GPIO.cleanup()

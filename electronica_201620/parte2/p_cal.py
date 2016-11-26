@@ -9,11 +9,11 @@ import RPi.GPIO as GPIO
 from controller import potentiometer
 
 adc = Adafruit_ADS1x15.ADS1115()
-pot = potentiometer((19, 20, 21), 100e3)
+pot = potentiometer((19, 20, 21))
 
-GAIN = 4
+GAIN = 1
 maximum = 32767.0
-gain_voltage = 1.024
+gain_voltage = 4.096
 
 data = open('potentiometer_cal2.csv', 'w')
 writer = csv.writer(data)
