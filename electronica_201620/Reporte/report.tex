@@ -285,11 +285,24 @@ El sensor de temperatura corresponde con un LM35, circuito integrado con respues
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=0.6\linewidth]{extras/temp_cal.pdf}
+	\caption{Calibraci\'on del sensor.}
 	\label{fig: temp calibration}
 \end{figure}
 
 Los resultados se muestran en la Figura \ref{fig: temp calibration}, de donde se observa la linealidad del sensor usado, tanto la pendiente como el intercepto muestran desfases del valor esperado (1 y 0, correspondientemente) sobre la seg\'unda cifra decimal, discrepancias menores al 6 \%.
+
 \section{Caracterizaci\'on del actuador}
+Inicialmente la construcci\'on del horno usaba una celda Peltier, no obstante esta dej\'o de funcionar. Por este motivo se modifica el actuador a una resistencia de 27 $\Omega$ y 5 vatios. Para una resistencia la potencia es proporcional al cuadrado de la diferencia de potencial entre sus terminales:
+\begin{equation}
+	P = VI = V\left(\frac{V}{R}\right)
+\end{equation}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.6\linewidth]{extras/actuator.pdf}
+	\caption{Temperaturas alcanzadas por la resistencia para distintos valores de voltaje.}
+\end{figure}
+Debido a que el sistema se encuentra restringido a voltajes de $\pm$12 y 0 V, la m\'axima potencia sobre la resistencia ser\'a 5.3 W, valor que se encuentra dentro de la capacidad de la resistencia.
 
 \section{Sistema de alimentaci\'on}
 El sistema de alimentaci\'on est\'a compuesto por dos reguladores de voltaje de 5 V de la familia 7805 \cite{7805}. El circuito de alimentaci\'on se encuentra acompa\~nado de dos condensadores que act\'uan como filtros, adem\'as se dispone de tres diodos 1N4001 \cite{1N4001} como protecci\'on a corriente reversa. El circuito sin carga mantiene un potencial de 5.03 V, y con carga se alcanzan valores de 4.78 V.
@@ -298,23 +311,81 @@ El sistema de alimentaci\'on est\'a compuesto por dos reguladores de voltaje de 
 	\includegraphics[width=0.9\linewidth]{extras/alimentacion.pdf}
 	\caption{Circuito de alimentaci\'on del horno.}
 \end{figure}
+
 \section{Controlador}
+El controlador est\'a compuesto por tres etapas:
+\begin{itemize}
+	\item \textbf{Restador:} calcula el error en la temperatura del horno.
+	\item \textbf{PID:} todas las partes invierten la salida y mantienen la ganancia en 1.
+	\item \textbf{Sumador:} se suma de forma ponderada las distintas componentes del PID. Las constantes usadas se muestran en la Tabla \ref{tb: PID}.
+	
+	\begin{table}[h]
+		\centering
+		\caption{Par\'ametros del controlador PID.}
+		\begin{tabular}{|c|c|}
+			\hline
+			$K_P$ & 100 \\
+			$K_I$ & 10 \\
+			$K_D$ & 1.42 \\
+			\hline
+		\end{tabular}
+		\label{tb: PID}
+	\end{table}
+\end{itemize}
+
+Los par\'ametros del controlador fueron determinados manualmente. En primer lugar se determin\'o $K_P$ usando 8 valores distintos de $R_{13}$.
+\begin{equation}
+	K_P = \frac{R_{14}}{R_{13}}
+\end{equation}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.6\linewidth]{extras/KP.pdf}
+\end{figure}
+En segundo lugar se agrega la etapa derivativa, para la cual la ganancia $K_D$ corresponde con;
+\begin{equation}
+	K_D = \frac{R_{14}}{R_{15}}
+\end{equation}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.6\linewidth]{extras/final_PID.pdf}
+	\caption{Resultado final del controlador PID.}
+\end{figure}
+Finalmente se agrega una etapa integradora para eliminar el error del estado estacionario, los valores de $K_I$ con los que se prob\'o el circuito fueron: 10, 1 y 1.42. El primero, satura permanentemente el actuador, manteniendo siempre al m\'aximo la diferencia de potencial. Con el segundo se alcanza un error del estado estacionario para una temperatura de 67.6 $^\circ$C en 3 $^\circ$C, error que se reduce con la \'ultima constante a cerca de 1 $^\circ$C.
+
 \section{Digitalizaci\'on}
+El valor de referencia es fijado usando un potenciometro digital con referencia X9C103P \cite{digi-pot} con resistencia interna de 100 k$\Omega$. Los tres pines l\'ogicos son conectados a los GPIO, los puertos predeterminados son:
+\begin{enumerate}
+	\item[19] \textbf{IN} (INCREMENT) 
+	\item[20] \textbf{U/D} (UP/DOWN)
+	\item[21] \textbf{C/S} (CHIP SELECT)
+\end{enumerate}
+
+Sin embargo los mismos pueden ser modificados usando la interf\'az gr\'afica. A continuaci\'on se muestran dos curvas del potencial en funci\'on de la posici\'on de la aguja del potenci\'ometro.
 \begin{figure}[h]
 	\begin{tabular}{cc}
 		\includegraphics[width=0.5\linewidth]{extras/without_follower.pdf}
 		& 
 		\includegraphics[width=0.5\linewidth]{extras/with_follower.pdf}
 	\end{tabular}
+	\caption{Voltaje de salida del potenci\'ometro acoplado al restador del PID. A la izquierda con carga, en el derecho con seguidor.}
 \end{figure}
 
+En las figuras anteriores se puede apreciar el efecto de la carga sobre el divisor de voltaje. Una modificaci\'on final en la etapa de digitalizaci\'on permiti\'o lograr un rango de potenciales de 0 a 3.3 V, conservando la linealidad, pero reduciendo la selecci\'on de temperaturas a cada 3.3 $^\circ$C.
 
-
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.4\linewidth]{extras/final_cal.pdf}
+	\caption{Calibraci\'on final del potenciometro digital.}
+\end{figure}
 \begin{chapreferences}{10.}
 	\bibitem{LM35} Texas Instruments, ``LM35 Precision	Centigrade Temperature Sensors'' LM35 datasheet, Aug. 1999 [Revised Aug.
 	2016].
 	\bibitem{7805} Spark fun ``Positive-Voltage Regulators'' $\mu$A7805C datasheet, May. 1976 [Revised May. 2003].
 	\bibitem{1N4001} Diodes, ``Diffused Junction 1N4001 - 1N4007'' 1N4001 datasheet, Sep. 2004.
+	\bibitem{digi-pot}
+	Digitally Controlled Potentiometer ``X9C103'' datasheet, Jul 2009.
 \end{chapreferences}
 
 \chapter{Algoritmo}

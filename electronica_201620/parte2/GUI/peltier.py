@@ -64,11 +64,13 @@ class MyWindowClass(QtGui.QMainWindow, form_class):
         self.ax2.set_ylim(0, 20)
         
         self.ax1.hold(True)
-        self.ax2.hold(True)  
+        self.ax2.hold(True)
         
         self.ax1_temperatures = self.ax1.plot([], [], "-", color = "r")[0]
-        self.ax2_errors = self.ax2.plot([], [], "-", color = "grey")[0]  
+        self.ax1_average = self.ax1.plot([], [], "-", lw=1, color = "green")[0]
+        self.ax2_errors = self.ax2.plot([], [], "-", color = "grey")[0]
         
+        self.ax1.legend()
         self.canvas = FigureCanvas(self.figure)
         self.pltvl.addWidget(self.canvas)
         self.canvas.draw()
@@ -86,8 +88,7 @@ class MyWindowClass(QtGui.QMainWindow, form_class):
         
         data = self.client.send_data("%.1f"%self.desired)
         current_temp, current_ref = eval(data)
-        self.desired = current_ref
-        current_error = self.desired - current_temp
+        current_error = current_ref - current_temp
         
         self.dataUpdate([current_time, current_temp, current_ref, current_error])
         
@@ -108,12 +109,19 @@ class MyWindowClass(QtGui.QMainWindow, form_class):
             self.ax2.set_ylim(min(self.plt_error), 3*maxy/2)
         elif self.plt_error[-1] <= miny:
             self.ax2.set_ylim(min(self.plt_error), maxy)
+
+        N = int(1/0.2 * 60 * 1) # QTimer, seconds/min, min
+        current = len(self.plt_temp)
+        temp = self.plt_temp[(current-N):]
+        averaged = np.mean(temp)
             
         self.ax1_temperatures.set_data(self.plt_time, self.plt_temp)
+        self.ax1_average.set_data(self.plt_time, averaged)
         self.ax2_errors.set_data(self.plt_time, self.plt_error)
         self.canvas.draw()
         
         self.current_line.setText("%.3f"%current_temp)
+        self.available_label.setText("%.1f"%current_ref)
         
     def start_stop(self):
         self.start = not self.start
