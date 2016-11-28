@@ -166,7 +166,7 @@ This version is dated \currversion^^J^^J}
 \newcommand{\tablename}{Tabla}
 \newcommand{\partname}{PART}
 \newcommand{\chaptername}{Cap\'itulo}
-\newcommand{\appendixname}{Appendix}
+\newcommand{\appendixname}{Addendum}
 
 %%% <== end global parameters
 
@@ -725,11 +725,11 @@ This version is dated \currversion^^J^^J}
 \renewcommand{\thetable}{\the\c@chapter-\thechapter.\@arabic\c@table\theletter}
 \renewcommand{\thefigure}{\the\c@chapter-\thechapter.\@arabic\c@figure\theletter}
 \def\one{#1}\ifx\one\empty
-\section*{Appendix}
+\section*{Addendum}
 \markright{APPENDIX}
 \addcontentsline{toc}{schapter}{\protect\numberline{Chapter Appendix}}
 \else
-\section*{Appendix: #1}
+\section*{Addendum: #1}
 \markright{APPENDIX}
 \addcontentsline{toc}{schapter}{\protect\numberline{Appendix: #1}}
 \fi
@@ -2044,7 +2044,7 @@ to2pc{\hskip3pt\hrulefill}\hss}\hss}%
   \setcounter{equation}{0}%
  \setcounter{theorem}{0}%
 \def\two{#2}\ifx\two\empty
-\chapter*{Appendix \Alph{chapter}}
+\chapter*{Addendum \Alph{chapter}}
 \renewcommand{\thechapter}{\Alph{chapter}}
 \addcontentsline{toc}{achapter}{\thechapter}
 \else
@@ -2061,7 +2061,7 @@ to2pc{\hskip3pt\hrulefill}\hss}\hss}%
 \def\one{#1}
 {\let\\ \
 \ifx\one\empty
-\markboth{\uppercase{Appendix \thechapter}}{\uppercase{Appendix \thechapter}}
+\markboth{\uppercase{ addendum \thechapter}}{\uppercase{Appendix \thechapter}}
 \else
 \markboth{\uppercase{#1}}{\uppercase{#1}}
 \fi
@@ -2102,7 +2102,7 @@ to2pc{\hskip3pt\hrulefill}\hss}\hss}%
  \setcounter{theorem}{0}%
   \renewcommand{\@chapapp}{\appendixname}%
 \def\one{#1}\ifx\one\empty
-\chapter*{Appendix \Alph{chapter}}
+\chapter*{Addendum \Alph{chapter}}
 \renewcommand{\thechapter}{\Alph{chapter}}
 \addcontentsline{toc}{achapter}{\thechapter\hskip2pt \ \quad Appendix}
 \else
