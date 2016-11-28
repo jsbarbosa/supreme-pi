@@ -6,3 +6,4 @@
 \contentsline {section}{\numberline {1.5}Digitalizaci\'on}{6}
 \contentsline {schapter}{Referencias}{7}
 \contentsline {chapter}{\numberline {2}Algoritmo}{9}
+\contentsline {schapter}{Referencias}{10}
