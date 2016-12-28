@@ -1,0 +1,13 @@
+\contentsline {chapter}{\numberline {1}Controlador PID}{1}
+\contentsline {section}{\numberline {1.1}Calibraci\'on de la temperatura}{3}
+\contentsline {section}{\numberline {1.2}Caracterizaci\'on del actuador}{3}
+\contentsline {section}{\numberline {1.3}Sistema de alimentaci\'on}{4}
+\contentsline {section}{\numberline {1.4}Controlador}{5}
+\contentsline {section}{\numberline {1.5}Digitalizaci\'on}{6}
+\contentsline {schapter}{Referencias}{7}
+\contentsline {chapter}{\numberline {2}Algoritmo}{9}
+\contentsline {section}{\numberline {2.1}peltier.py}{10}
+\contentsline {section}{\numberline {2.2}TCP.py}{13}
+\contentsline {section}{\numberline {2.3}controller.py}{15}
+\contentsline {schapter}{Referencias}{18}
+\contentsline {chapter}{\numberline {3}Mejoras}{19}
