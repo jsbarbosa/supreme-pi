@@ -24,25 +24,26 @@
 from time import sleep
 import RPi.GPIO as GPIO
 
-GPIO.setmode(GPIO.BOARD) # GPIO.BCM
+GPIO.setmode(GPIO.BOARD)
 
-channels_in = [12]
-channels_out = [13]
+channels_in = [12, 13, 15, 16]
+channels_out = [29, 31, 32, 33]
 PWMs = [None]*len(channels_in)
-freqs = [250]
-
+freqs = [262, 330, 392, 494]
+current = [False]*len(channels_in)
 
 def init():
     for i in range(len(channels_in)):
         GPIO.setup(channels_in[i], GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
         GPIO.setup(channels_out[i], GPIO.OUT)
-        GPIO.add_event_detect(channels_in[i], GPIO.BOTH, callback=status)
+        GPIO.add_event_detect(channels_in[i], GPIO.BOTH, callback=status, bouncetime=10)
         
         PWMs[i] = GPIO.PWM(channels_out[i], freqs[i])
 
 def status(channel):
     pos = channels_in.index(channel)
     if GPIO.input(channel):
+        PWMs[pos].ChangeFrequency(freqs[pos])
         PWMs[pos].start(50.0) # duty cycle
         print('STARTED: %d Hz'%freqs[pos])
     else:
@@ -51,11 +52,12 @@ def status(channel):
 
 def main():
     init()
-    while True:
-		try:
-			sleep(0.1)
-		except KeyboardInterrupt:
-			break
 
+    while True:
+	try:
+	    sleep(0.01)
+	except KeyboardInterrupt:
+            break
+    GPIO.cleanup()
 if __name__ == '__main__':
     main()
