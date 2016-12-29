@@ -21,20 +21,21 @@
 #  MA 02110-1301, USA.
 #  
 #  
-
+from time import sleep
 import RPi.GPIO as GPIO
 
 GPIO.setmode(GPIO.BOARD) # GPIO.BCM
 
-channels_in = []
-channels_out = []
-PWMs = []
-freqs = []
+channels_in = [12]
+channels_out = [13]
+PWMs = [None]*len(channels_in)
+freqs = [250]
 
 
 def init():
-    for i in range(len(channels_in):
+    for i in range(len(channels_in)):
         GPIO.setup(channels_in[i], GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+        GPIO.setup(channels_out[i], GPIO.OUT)
         GPIO.add_event_detect(channels_in[i], GPIO.BOTH, callback=status)
         
         PWMs[i] = GPIO.PWM(channels_out[i], freqs[i])
@@ -50,6 +51,11 @@ def status(channel):
 
 def main():
     init()
+    while True:
+		try:
+			sleep(0.1)
+		except KeyboardInterrupt:
+			break
 
 if __name__ == '__main__':
     main()
