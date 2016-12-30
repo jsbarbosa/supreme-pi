@@ -30,7 +30,6 @@ channels_in = [12, 13, 15, 16]
 channels_out = [29, 31, 32, 33]
 PWMs = [None]*len(channels_in)
 freqs = [262, 330, 392, 494]
-current = [False]*len(channels_in)
 
 def init():
     for i in range(len(channels_in)):
