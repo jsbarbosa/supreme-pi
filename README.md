@@ -1,4 +1,4 @@
-# supreme-pi
+10.57.20# supreme-pi
 ## The Raspberry Pi project
 
 ### GPIO Pins
@@ -25,6 +25,9 @@ It might be easier to use the Raspberry using an Ethernet cable. On Ubuntu (host
 ``arp -e | grep enp3s0``
 
 5. On Remmina, server = ``192.168.0.8:1``.
+
+``10.52.0.207:1
+192.168.137.209:1``
 
 References:
 
